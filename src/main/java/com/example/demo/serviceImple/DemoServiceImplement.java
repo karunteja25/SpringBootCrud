@@ -1,5 +1,6 @@
 package com.example.demo.serviceImple;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -99,5 +100,55 @@ public class DemoServiceImplement implements DemoService {
 		}
 		return userDtoList;
 	}
-
+	@Override
+	public UserDTO findUserByName(String userName) {
+		UserDTO userDTO= new UserDTO();
+		UserEntity user=userRepo.findUserByName(userName);
+		
+		if(user != null) {
+			 
+			 userDTO.setUsername(user.getUsername());
+				userDTO.setAddress(user.getAddress());
+				userDTO.setAge(user.getAge());
+				userDTO.setId(user.getId());
+				return userDTO;
+		}
+		
+		return userDTO;
+	}
+	@Override
+	public UserDTO updateUserNameById(String userName,Integer id) {
+		UserDTO userDTO= new UserDTO();
+		userRepo.updateUserNameById(userName,id);
+		
+		Optional<UserEntity> opt=userRepo.findById(id);
+		UserEntity user=null;
+		if(opt!=null)
+			{user=opt.get();}
+		userDTO.setUsername(user.getUsername());
+		userDTO.setAddress(user.getAddress());
+		userDTO.setAge(user.getAge());
+		userDTO.setId(user.getId());
+		return userDTO;
+		
+	}
+	@Override
+	public List<UserDTO> displayUserStats() throws SQLException {
+		List<UserDTO> userDtoList=new ArrayList<>();
+		
+		List <UserEntity>users=userRepo.displayUserStats();
+		for(UserEntity user:users)
+		{
+			UserDTO userDto=new UserDTO();
+			userDto.setUsername(user.getUsername());
+			userDto.setAge(user.getAge());
+			userDto.setId(user.getId());
+			userDto.setAddress(user.getAddress());
+			userDto.setUserStats(user.getUserStats());
+			userDtoList.add(userDto);
+		}
+		return userDtoList;
+	}
+	
+	
 }

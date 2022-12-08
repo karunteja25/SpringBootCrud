@@ -1,5 +1,7 @@
 package com.example.demo.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +21,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 	@Transactional
 	@Query("UPDATE UserEntity u set u.username=:userName where u.id=:id")
 	public void updateUserNameById(@Param("userName") String userName,@Param("id")Integer id);
+	
+	@Query("select ue,us \r\n"
+			+ "from UserStats us \r\n"
+			+ "inner join UserEntity ue\r\n"
+			+ "on ue.id=us.id")
+	public List<UserEntity> displayUserStats();
 	
 
 }

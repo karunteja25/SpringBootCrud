@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.UserDTO;
 import com.example.demo.service.DemoService;
-import com.example.demo.serviceImple.DemoServiceImplement;
 
 @RestController
 public class DemoController {
@@ -67,5 +66,10 @@ public class DemoController {
 		UserDTO user=dsi.updateUserNameById(userDto.getUsername(),userDto.getId());
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
+	@GetMapping(value="/displaystats",produces="application/json")
+	public ResponseEntity<List<UserDTO>> displayUserStats() throws SQLException {
+		List<UserDTO> dto =dsi.displayUserStats();
+		return ResponseEntity.status(HttpStatus.OK).body(dto);
+	} 
 
 }
