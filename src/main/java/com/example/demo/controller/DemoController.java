@@ -56,5 +56,16 @@ public class DemoController {
 		UserDTO dto =dsi.findUserById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(dto);
 	}
+	@GetMapping(value = "/getuserbyname", produces = "application/json")
+	public ResponseEntity<UserDTO> findUserByName(@RequestBody String name) throws Exception {
+		UserDTO dto =dsi.findUserByName(name);
+		return ResponseEntity.status(HttpStatus.OK).body(dto);
+	}
+	@PutMapping(value="/updateusernamebyid",produces="application/json")
+	public ResponseEntity<UserDTO> updateNameById(@RequestBody UserDTO userDto){
+		
+		UserDTO user=dsi.updateUserNameById(userDto.getUsername(),userDto.getId());
+		return ResponseEntity.status(HttpStatus.OK).body(user);
+	}
 
 }
